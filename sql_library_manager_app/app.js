@@ -4,6 +4,24 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+/* import the instance of sequelize that was instantiated for you in the 
+models/index.js file when you used the sequelize CLI 
+https://sequelize.org/docs/v6/getting-started/ */
+const { sequelize } = require('./models');
+console.log(sequelize);
+
+/* Use the sequelize.authenticate() method to asynchronously connect to the database 
+and log out a message indicating that a connection has/hasn’t been established */
+(async () => {
+  try {
+    await sequelize.authenticate();
+    console.log('Connection has been established successfully.');
+    sequelize.sync()
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
+})();
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
