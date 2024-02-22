@@ -25,13 +25,13 @@ router.get('/', asyncHandler(async (req, res) => {
 }));
 
 // get /books - Shows the full list of books
-router.get('/books', asyncHandler(async (req, res) => {
+router.get('/', asyncHandler(async (req, res) => {
   /* Asynchronously use the findAll() method on the Book model 
   to get all the books, and store them in a variable */
   const books = await Book.findAll();
   // /* Log out the books variable and use the res.json() method 
   // to display the books on a webpage */
-  console.log("Books from book: " + res.json(books));
+  // console.log(res.json(books));
   res.render('index', { books, title: "Books" });
 }));
 
@@ -43,7 +43,8 @@ router.get('/books/new', asyncHandler(async (req, res) => {
 // post /books/new - Posts a new book to the database
 router.post('/books/new', asyncHandler(async (req, res) => {
   const book = await Book.create(req.body);
-  res.redirect('books' + book.id);
+  // console.log(req.body);
+  res.redirect('/');
 }));
 
 // get /books/:id - Shows book detail form
@@ -55,7 +56,7 @@ router.get('/books/:id', asyncHandler(async (req, res) => {
 // post /books/:id - Updates book info in the database
 router.post('/books/:id', asyncHandler(async (req, res) => {
   const book = await Book.findByPk(req.params.id);
-  await book.update();
+  await book.update(req.body);
   res.redirect('books' + book.id);
 }));
 
@@ -65,7 +66,7 @@ It can be helpful to create a new “test” book to test deleting */
 router.post('/books/:id/delete', asyncHandler(async (req, res) => {
   const book = await Book.findByPk(req.params.id);
   await book.destroy();
-  res.redirect('books');
+  res.redirect('/');
 }));
 
 module.exports = router;
