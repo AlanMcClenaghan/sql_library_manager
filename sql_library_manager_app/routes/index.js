@@ -25,7 +25,7 @@ router.get('/', asyncHandler(async (req, res) => {
 }));
 
 // get /books - Shows the full list of books
-router.get('/', asyncHandler(async (req, res) => {
+router.get('/books', asyncHandler(async (req, res) => {
   /* Asynchronously use the findAll() method on the Book model 
   to get all the books, and store them in a variable */
   const books = await Book.findAll();
@@ -44,7 +44,7 @@ router.get('/books/new', asyncHandler(async (req, res) => {
 router.post('/books/new', asyncHandler(async (req, res) => {
   const book = await Book.create(req.body);
   // console.log(req.body);
-  res.redirect('/');
+  res.redirect('/books');
 }));
 
 // get /books/:id - Shows book detail form
@@ -57,7 +57,7 @@ router.get('/books/:id', asyncHandler(async (req, res) => {
 router.post('/books/:id', asyncHandler(async (req, res) => {
   const book = await Book.findByPk(req.params.id);
   await book.update(req.body);
-  res.redirect('books' + book.id);
+  res.redirect('/');
 }));
 
 /* post /books/:id/delete - Deletes a book. Be careful, this can’t be undone. 
